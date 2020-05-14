@@ -1,5 +1,6 @@
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,6 +34,17 @@ public class RegisterForm extends javax.swing.JFrame {
         topBarPanel = new javax.swing.JPanel();
         exitLabel = new javax.swing.JLabel();
         minimizeLabel = new javax.swing.JLabel();
+        registerUserName = new javax.swing.JTextField();
+        registerPassword = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        registerPassword1 = new javax.swing.JPasswordField();
+        registerButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        registerFirstName = new javax.swing.JTextField();
+        registerLastName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -42,13 +54,13 @@ public class RegisterForm extends javax.swing.JFrame {
 
         loginLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        loginLabel.setText("LOGIN");
+        loginLabel.setText("already have account");
         loginLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginLabelMouseClicked(evt);
             }
         });
-        jPanel1.add(loginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 90, -1));
+        jPanel1.add(loginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 160, -1));
 
         topBarPanel.setBackground(new java.awt.Color(204, 204, 204));
         topBarPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -99,6 +111,34 @@ public class RegisterForm extends javax.swing.JFrame {
         );
 
         jPanel1.add(topBarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 30));
+        jPanel1.add(registerUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 150, -1));
+        jPanel1.add(registerPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 150, -1));
+
+        jLabel7.setText("Password :");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
+
+        jLabel6.setText("Userame  :");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, -1, 20));
+
+        jLabel8.setText("Confirm password :");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
+        jPanel1.add(registerPassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 150, -1));
+
+        registerButton.setText("REGISTER");
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(registerButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 100, -1));
+
+        jLabel1.setText("Lastname :");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
+
+        jLabel2.setText("Firstname :");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, -1));
+        jPanel1.add(registerFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 150, -1));
+        jPanel1.add(registerLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 150, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
 
@@ -108,14 +148,7 @@ public class RegisterForm extends javax.swing.JFrame {
     private void loginLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseClicked
         // TODO add your handling code here:
 
-        LoginForm login = new LoginForm();
-
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
-        login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.dispose();
+        gotoLogin();
     }//GEN-LAST:event_loginLabelMouseClicked
     private int mousePositionX, mousePositionY;
 
@@ -143,6 +176,33 @@ public class RegisterForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_minimizeLabelMouseClicked
+    BackendFunctions function = new BackendFunctions();
+
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+        // TODO add your handling code here:
+        if (registerUserName.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "PLS ENTER USERNAME");
+        } else if (registerFirstName.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "PLS CONFIRM PASSWORD");
+        } else if (registerLastName.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "PLS CONFIRM PASSWORD");
+        } else if (registerPassword.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "PLS ENTER PASSWORD");
+        } else if (!registerPassword.getText().equals(registerPassword1.getText())) {
+            JOptionPane.showMessageDialog(null, "PLS CONFIRM PASSWORD");
+        } else {
+            String userName = registerUserName.getText();
+            String password = registerPassword.getText();
+            String firstName = registerUserName.getText();
+            String lastName = registerFirstName.getText();
+            if (function.checkIfUserAlreadyExist(userName)) {
+                JOptionPane.showMessageDialog(null, "Username already exist");
+            } else {
+                function.addUser(userName, password, firstName, lastName);
+                gotoLogin();
+            }
+        }
+    }//GEN-LAST:event_registerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,9 +242,31 @@ public class RegisterForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel exitLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JLabel minimizeLabel;
+    private javax.swing.JButton registerButton;
+    private javax.swing.JTextField registerFirstName;
+    private javax.swing.JTextField registerLastName;
+    private javax.swing.JPasswordField registerPassword;
+    private javax.swing.JPasswordField registerPassword1;
+    private javax.swing.JTextField registerUserName;
     private javax.swing.JPanel topBarPanel;
     // End of variables declaration//GEN-END:variables
+
+    private void gotoLogin() {
+        LoginForm login = new LoginForm();
+
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+        login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.dispose();
+    }
 }
