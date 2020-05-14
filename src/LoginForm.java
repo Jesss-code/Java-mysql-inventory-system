@@ -1,17 +1,19 @@
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author SoloCode JSHDVR
  */
 public class LoginForm extends javax.swing.JFrame {
+
+    private boolean userVerify;
 
     /**
      * Creates new form Login
@@ -38,6 +40,8 @@ public class LoginForm extends javax.swing.JFrame {
         userNameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         registerLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -98,26 +102,21 @@ public class LoginForm extends javax.swing.JFrame {
 
         loginButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         loginButton.setText("LOGIN");
-        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginButtonMouseClicked(evt);
-            }
-        });
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
             }
         });
-        BGPanel.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 170, 30));
+        BGPanel.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 110, 30));
 
         userNameField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         userNameField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         userNameField.setText("USERNAME");
-        BGPanel.add(userNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 170, 30));
+        BGPanel.add(userNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 200, 30));
 
         passwordField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passwordField.setText("jPasswordField1");
-        BGPanel.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 170, 30));
+        BGPanel.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 200, 30));
 
         registerLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         registerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -127,41 +126,21 @@ public class LoginForm extends javax.swing.JFrame {
                 registerLabelMouseClicked(evt);
             }
         });
-        BGPanel.add(registerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 170, 20));
+        BGPanel.add(registerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 90, 20));
 
-        getContentPane().add(BGPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("PASSWORD :");
+        BGPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("USERNAME :");
+        BGPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+
+        getContentPane().add(BGPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
-        // TODO add your handling code here:
-        MainForm main = new MainForm();
-
-        main.setVisible(true);
-        main.pack();
-        main.setLocationRelativeTo(null);
-        main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
-        this.dispose();
-        
-    }//GEN-LAST:event_loginButtonMouseClicked
-
-    private void registerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerLabelMouseClicked
-        // TODO add your handling code here:
-        RegisterForm ragister = new RegisterForm();
-
-        ragister.setVisible(true);
-        ragister.pack();
-        ragister.setLocationRelativeTo(null);
-        ragister.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
-        this.dispose();
-    }//GEN-LAST:event_registerLabelMouseClicked
-
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginButtonActionPerformed
+    BackendFunctions function = new BackendFunctions();
     private int mousePositionX, mousePositionY;
     private void topBarPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_topBarPanelMousePressed
 
@@ -187,6 +166,33 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_minimizeLabelMouseClicked
+
+    private void registerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerLabelMouseClicked
+        // TODO add your handling code here:
+        gotoRegister();
+    }//GEN-LAST:event_registerLabelMouseClicked
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        // TODO add your handling code here:
+                String userName = userNameField.getText();
+        String userPassword = passwordField.getText();
+        if (userNameField.getText().equals("") || passwordField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "PLS ENTER Username and password");
+        } else if (function.checkIfUserAlreadyExist(userName)) {
+            if (function.checkIfCorrectPassword(userName, userPassword)) {
+                this.userVerify = true;
+                MainForm.inventoryUserPerson = userName;
+                gotoMainForm();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong password");
+                this.userVerify = false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "User doest exist");
+            this.userVerify = false;
+        }
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,6 +233,8 @@ public class LoginForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BGPanel;
     private javax.swing.JLabel exitLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel minimizeLabel;
     private javax.swing.JPasswordField passwordField;
@@ -234,4 +242,26 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel topBarPanel;
     private javax.swing.JTextField userNameField;
     // End of variables declaration//GEN-END:variables
+
+    private void gotoRegister() {
+        RegisterForm ragister = new RegisterForm();
+
+        ragister.setVisible(true);
+        ragister.pack();
+        ragister.setLocationRelativeTo(null);
+        ragister.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.dispose();
+    }
+
+    private void gotoMainForm() {
+        MainForm main = new MainForm();
+
+        main.setVisible(true);
+        main.pack();
+        main.setLocationRelativeTo(null);
+        main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.dispose();
+    }
 }
